@@ -24,6 +24,36 @@ const out = true; // Mostra a saída
 // variáveis de trabalho
 let currentDoc, newDoc;
 
+// ----------------------------------------- FUNÇÕES ------------------------------------------------
+
+//Função para exibir o manual:
+function help () {
+
+console.log("Am Editor v0.1.0")
+console.log("")
+console.log("Utilitario que permite manipular arquivos padrao Automerge via linha de comando")
+console.log("")
+console.log("Uso:")
+console.log("    node am.js <nome_do_arquivo_sem_extensao> init")
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" object')
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" field "<nome do campo>" string "<conteudo>"')
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" field "<nome do campo>" array')
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" field "<nome do campo>" array index 0 object')
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" field "<nome do campo 1>" array index 0 field "<nome do campo 2>" string "<conteudo>"')
+console.log('    node am.js <nome do arquivo sem extensao> set "<nome do objeto>" field "<nome do campo 1>" array index 0 item "<nome do campo 2>"')
+console.log('    node am.js <nome do arquivo sem extensao> rem "<nome do objeto>" ')
+console.log("")
+console.log("Mais informacoes:")
+console.log("")
+console.log("    https://github.com/fabiobosisio/am")
+console.log("")
+console.log("    Por favor reporte bugs em <hhttps://github.com/fabiobosisio/am/blob/master/README.md>")
+
+}
+
+
+
+// ----------------------------------------- CORPO PRINCIPAL ------------------------------------------------
 
 // seleciona o comando a ser executado
 if (cmd) console.log("Comando: " +command);
@@ -31,6 +61,12 @@ switch (command) {
     case 'init': // comando de inicialização
 	newDoc = Automerge.init();
 	if (out) console.log(newDoc);
+
+    // Salva o arquivo local .automerge com os metadados automerge do json
+    fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+		
+    // Salva o arquivo local .json
+    fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
     break;
   
     case 'set': // comando de manipulação
@@ -83,6 +119,11 @@ switch (command) {
 	    break;
 	}
     
+    // Salva o arquivo local .automerge com os metadados automerge do json
+    fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+		
+    // Salva o arquivo local .json
+    fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
  
     break;
 	 
@@ -94,12 +135,17 @@ switch (command) {
 		delete currentDoc[n0];
 	})
 	if (out) console.log(newDoc);
+	
+	// Salva o arquivo local .automerge com os metadados automerge do json
+	fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+		
+	// Salva o arquivo local .json
+	fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
     break;
+    default:
+        //console.log('\x1b[36m%s\x1b[0m',`Operacao invalida!`);
+	help();
+    break;	
 	 
 }
 
-// Salva o arquivo local .automerge com os metadados automerge do json
-fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
-		
-// Salva o arquivo local .json
-fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
