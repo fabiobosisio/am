@@ -25,7 +25,7 @@ Mais informações:
 ```
   
 ### init - Inicializa um arquivo Automerge
-*Uso:*
+**Uso:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome_do_arquivo_sem_extensão> init
@@ -45,7 +45,7 @@ node am.js p2p init
 
 ### set - Manipulação do arquivo.
 
-*Uso - Criando um objeto:*
+**Uso - Criando um objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" object
@@ -60,7 +60,7 @@ node am.js p2p set "Sections" object
 {"Sections":{}}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-*Uso - Criando um campo tipo string dentro do objeto:*
+**Uso - Criando um campo tipo string dentro do objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" string "<conteudo>"
@@ -75,7 +75,7 @@ node am.js p2p set "Sections" field "Introduction" string "P2P networking is..."
 {{ "Sections": { "Introduction":"P2P" } }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Uso - Criando um array dentro do objeto:*
+**Uso - Criando um array dentro do objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" array
@@ -90,7 +90,7 @@ node am.js p2p set "Sections" field "Applications" array
 { "Sections": { "Introduction":"P2P","History":"...","Applications":[] } }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Uso - Criando um objeto no indice 0 do array que está dentro de um objeto:*
+**Uso - Criando um objeto no indice 0 do array que está dentro de um objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" array index 0 object
@@ -105,7 +105,7 @@ node am.js p2p set "Sections" field "Applications" array index 0 object
 { "Sections": { ...,"Applications":[{}] } }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Uso - Criando um campo no objeto do indice 0 do array que está dentro de um objeto:*
+**Uso - Criando um campo no objeto do indice 0 do array que está dentro de um objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo 1>" array index 0 field "<nome do campo 2>" string "<conteudo>"
@@ -121,7 +121,7 @@ node am.js p2p set "Sections" field "Applications" array index 0 field "Napster"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-*Uso - Criando um item simples no objeto do indice 0 do array que está dentro de um objeto:*
+**Uso - Criando um item simples no objeto do indice 0 do array que está dentro de um objeto:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo 1>" array index 0 item "<nome do campo 2>"
@@ -140,7 +140,7 @@ node am.js p2p set "Sections" field "Applications" array index 0 field "Napster"
 ### rem - Apaga o conteúdo de um determinado objeto
 (Por enquanto só no primeiro nível)
 
-*Uso:*
+**Uso:**
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 node am.js <nome do arquivo sem extensão> rem "<nome do objeto>" 
