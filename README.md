@@ -20,6 +20,12 @@ $ sudo apt install nodejs
 $ npm install automerge ## or yarn add automerge
 ```
 
+E então faça o clone do repositório do `am.js`para utilizar a ferramenta:
+
+```
+$ git clone https://github.com/fabiobosisio/am.git
+```
+
 As versões utilizadas nos testes foram:
 -   NodeJS v14.15.4
 -   Automerge 1.0.1-preview.7
