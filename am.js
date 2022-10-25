@@ -63,7 +63,7 @@ switch (command) {
 	if (out) console.log(newDoc);
 
     // Salva o arquivo local .automerge com os metadados automerge do json
-    fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+    fs.writeFileSync(filename+".am", Automerge.save(newDoc), {encoding: null}); 
 		
     // Salva o arquivo local .json
     fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
@@ -71,7 +71,7 @@ switch (command) {
   
     case 'set': // comando de manipulação
 	//Carrega o último arquivo salvo
-	currentDoc = Automerge.load(fs.readFileSync(filename+".atm", {encoding: null}));
+	currentDoc = Automerge.load(fs.readFileSync(filename+".am", {encoding: null}));
     
 	// seleciona o comando a ser executado
 	if (cmd) console.log("Tipo do Elemento: "+ element);
@@ -120,7 +120,7 @@ switch (command) {
 	}
     
     // Salva o arquivo local .automerge com os metadados automerge do json
-    fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+    fs.writeFileSync(filename+".am", Automerge.save(newDoc), {encoding: null}); 
 		
     // Salva o arquivo local .json
     fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});
@@ -129,7 +129,7 @@ switch (command) {
 	 
     case 'rem':// apaga seções
 	//Carrega o último arquivo salvo
-	currentDoc = Automerge.load(fs.readFileSync(filename+".atm", {encoding: null}));
+	currentDoc = Automerge.load(fs.readFileSync(filename+".am", {encoding: null}));
 	//Apaga
 	newDoc = Automerge.change(currentDoc, currentDoc => {
 		delete currentDoc[n0];
@@ -137,7 +137,7 @@ switch (command) {
 	if (out) console.log(newDoc);
 	
 	// Salva o arquivo local .automerge com os metadados automerge do json
-	fs.writeFileSync(filename+".atm", Automerge.save(newDoc), {encoding: null}); 
+	fs.writeFileSync(filename+".am", Automerge.save(newDoc), {encoding: null}); 
 		
 	// Salva o arquivo local .json
 	fs.writeFileSync(filename+".json", JSON.stringify(newDoc), {encoding: null});

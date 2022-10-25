@@ -13,17 +13,17 @@ O desenvolvimento foi feito em nodejs para ser executado em linha de comandos li
 Primeiro, você precisa instalar o `NodeJS` e o `Automerge`:
 
 ```
-$ sudo apt install nodejs
+sudo apt install nodejs
 ```
 
 ```
-$ npm install automerge ## or yarn add automerge
+npm install automerge ## or yarn add automerge
 ```
 
 E então faça o clone do repositório do `am.js`para utilizar a ferramenta:
 
 ```
-$ git clone https://github.com/fabiobosisio/am.git
+git clone https://github.com/fabiobosisio/am.git
 ```
 
 As versões utilizadas nos testes foram:
@@ -43,62 +43,62 @@ Execução passo a passo:
 - Inicializando um arquivo Automerge:
 
 ```
-$ node am.js p2p init
+node am.js p2p init
 ```
 
 - Criando um objeto:
 
 ```
-$ node am.js p2p set "Sections" object
+node am.js p2p set "Sections" object
 {"Sections":{}}
 ```
 
 - Criando um campo dentro do objeto:
 
 ```
-$ node am.js p2p set "Sections" field "Introduction" string "P2P networking is..."
+node am.js p2p set "Sections" field "Introduction" string "P2P networking is..."
 {{ "Sections": { "Introduction":"P2P" } }
 ```
 
 - Criando mais um campo dentro do objeto:
 
 ```
-$ node am.js p2p set "Sections" field "History" string "..."
+node am.js p2p set "Sections" field "History" string "..."
 { "Sections": { "Introduction":"P2P","History":"..." } }
 ```
 
 - Criando um array dentro do objeto:
 
 ```
-$ node am.js p2p set "Sections" field "Applications" array
+node am.js p2p set "Sections" field "Applications" array
 { "Sections": { "Introduction":"P2P","History":"...","Applications":[] } }
 ```
 
 - Criando um objeto no indice 0 do array que está dentro de um objeto:
 
 ```
-$ node am.js p2p set "Sections" field "Applications" array index 0 object
+node am.js p2p set "Sections" field "Applications" array index 0 object
 { "Sections": { ...,"Applications":[{}] } }
 ```
 
 - Criando um objeto no indice 1 do array que está dentro de um objeto:
 
 ```
-$ node am.js p2p set "Sections" field "Applications" array index 1 object
+node am.js p2p set "Sections" field "Applications" array index 1 object
 { "Sections": { ...,"Applications":[{},{}] } }
 ```
 
 - Criando um campo no  objeto do indice 0 do array que está dentro de um objeto:
 
 ```
-$ node am.js p2p set "Sections" field "Applications" array index 0 field "Napster" string "..."
+node am.js p2p set "Sections" field "Applications" array index 0 field "Napster" string "..."
 { "Sections": { ...,"Applications":[{"Napster":"..."},{}] } }
 ```
 
-- Criando um campo no  objeto do indice 1 do array que est� dentro de um objeto:*
+- Criando um campo no  objeto do indice 1 do array que está dentro de um objeto:*
 
 ```
-$ node am.js p2p set "Sections" field "Applications" array index 1 field "Freechains" string "..."
+node am.js p2p set "Sections" field "Applications" array index 1 field "Freechains" string "..."
 { "Sections": { ...,"Applications":[{"Napster":"..."},{"Freechains":"..."}] } }
 ```
 
@@ -120,7 +120,7 @@ Temos o seguinte objeto:
 - Apaga o conteúdo de um determinado objeto:
 
 ```
-$ node am.js p2p rem 'History'
+node am.js p2p rem 'History'
 ```
 
 Por fim temos o seguinte objeto:
