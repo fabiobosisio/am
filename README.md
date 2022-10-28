@@ -1,36 +1,44 @@
-# AM editor: Utilitário que permite manipular arquivos padrão Automerge via linha de comando
+# AM editor: Automerge file command line editor
 
-Esse utilitário foi criado para executar os comandos Automerge e manipular arquivos nesse formato via linha de comando.
-
-O desenvolvimento foi feito em nodejs para ser executado em linha de comandos linux.
+This editor uses Automerge commands to manipulate files in this format via the command line.
 
 
-- [Comandos](docs/cmds.md): lista de todos os comandos disponíveis
+- [Commands](docs/cmds.md): list of all available commands
 
 
-## Instalação
+## Install
 
-Primeiro, você precisa instalar o `NodeJS` e o `Automerge`:
+1. Install `NPM`:
+
+```
+sudo apt install npm
+```
+2. Install `NodeJS`:
 
 ```
 sudo apt install nodejs
 ```
 
+3. Install `Automerge`:
+
 ```
-npm install automerge ## or yarn add automerge
+npm i automerge@1.0.1-preview.7
 ```
 
-E então faça o clone do repositório do `am.js`para utilizar a ferramenta:
+4. Clone the `am.js` repository to use the tool:
 
 ```
 git clone https://github.com/fabiobosisio/am.git
 ```
 
-As versões utilizadas nos testes foram:
+5. Use the editor inside the `/home/user/am directory`
+
+The versions used in the tests were:
+-   NPM v8.13.2
 -   NodeJS v14.15.4
 -   Automerge 1.0.1-preview.7
 
-## Básicos
+## Basics
 
 Os comandos do am.js são os abaixo:
 
