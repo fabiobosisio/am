@@ -6,7 +6,7 @@ This editor uses Automerge commands to manipulate files in this format via the c
 - [Commands](docs/cmds.md): list of all available commands
 
 
-## Install
+## Install (5 steps)
 
 1. Install `NPM`:
 
@@ -31,7 +31,7 @@ npm i automerge@1.0.1-preview.7
 git clone https://github.com/fabiobosisio/am.git
 ```
 
-5. Use the editor inside the `/home/user/am directory`
+5. Use the editor inside the `/home/user/am` directory
 
 The versions used in the tests were:
 -   NPM v8.13.2
