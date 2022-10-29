@@ -1,29 +1,53 @@
-# AM Editor: Interface de linha de comando
+# AM editor: Automerge file command line editor
 
 - `node am.js`
 
 ```
 Am Editor v0.1.0
 
-Utilitário que permite manipular arquivos padrao Automerge via linha de comando
+AM is a editor that uses Automerge commands to manipulate files in this format via the command line.
 
-Uso:
-    node am.js <nome_do_arquivo_sem_extensão> init
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" object
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" string "<conteudo>"
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" array
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo>" array index 0 object
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo 1>" array index 0 field "<nome do campo 2>" string "<conteudo>"
-    node am.js <nome do arquivo sem extensão> set "<nome do objeto>" field "<nome do campo 1>" array index 0 item "<nome do campo 2>"
-    node am.js <nome do arquivo sem extensão> rem "<nome do objeto>" 
+Usage:
+    node am.js <file> init
+    node am.js <file> <path> <mode> <op>
 
-Mais informações:
+File:
+    Filename without extension.
+
+Path:    
+    field <fld>    Indicates the field to be accessed.
+    | 
+    index <idx>    Indicates the index of the accessed field, if it is an array type field.
+
+Mode:
+    read           Enables read mode, in which case it is not necessary to include operations.    
+    |
+    write          Enables editor mode, it is necessary to include the desired operation (<op>)
+
+Ops:
+    object ins <fld>:<value>      Inserts a field with value in the object accessed by path     
+    object set <fld>:<value>      Modifies a field with value in the object accessed by path
+    object del <fld>              Delete a field with value in the object accessed by path
+    |
+    array ins <idx>,<value>       Inserts a value at the indicated index of the array accessed by path    
+    array set <idx>,<value>       Modifies a value at the indicated index of the array accessed by path
+    array del <idx>               Delete a value at the indicated index of the array accessed by path
+
+Value:
+    object                  Inserts an object (dictionary). Accessible via path.
+    array                   Inserts an array (list). Accessible via path.
+    string <str>            Inserts an string with value.
+    number <num>            Inserts an number with value.
+    bool true | false       Inserts a boolean with values.
+    null                    Inserts a null element.
+
+More Information:
 
     https://github.com/fabiobosisio/am
 
-    Por favor reporte bugs em <hhttps://github.com/fabiobosisio/am/blob/master/README.md>.
+    Please report bugs at <https://github.com/fabiobosisio/am/blob/master/README.md>.
 ```
-  
+ <!-- 
 ### init - Inicializa um arquivo Automerge
 **Uso:**
 
@@ -163,3 +187,4 @@ node am.js p2p rem 'Topics'
    
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-->
