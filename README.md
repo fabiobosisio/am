@@ -1,7 +1,6 @@
 # AM editor: Automerge file command line editor
 
-This editor uses Automerge commands to manipulate files in this format via the command line.
-
+AM is a editor that uses Automerge commands to manipulate files in this format via the command line.
 
 - [Commands](docs/cmds.md): list of all available commands
 
@@ -37,7 +36,7 @@ The versions used in the tests were:
 -   NPM v8.13.2
 -   NodeJS v14.15.4
 -   Automerge 1.0.1-preview.7
-
+<!--
 ## Basics
 
 Os comandos do am.js são os abaixo:
@@ -142,3 +141,4 @@ Por fim temos o seguinte objeto:
     },
 }
 ```
+-->
