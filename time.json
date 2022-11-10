@@ -1,0 +1,22 @@
+{
+    "estadio":null,
+    "nome":"Flamengo",
+    "fund":1895,
+    "jogs":[
+       "Santos",
+       "Felipe",
+       "Cafú"
+    ],
+    "tits":[
+       {
+          "ano":1900,
+          "camp":"Brasileiro",
+          "invicto":false
+       },
+       {
+          "ano":1980,
+          "camp":"Carioca",
+          "invicto":false
+       }
+    ]
+ }
