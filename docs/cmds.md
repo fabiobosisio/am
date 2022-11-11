@@ -9,7 +9,7 @@ AM is a editor that uses Automerge commands to manipulate files in this format v
 
 Usage:
     node am.js <file> init
-    node am.js <file> <path> <mode> <op>
+    node am.js <file> <path>... <mode> <op>
 
 File:
     Filename without extension.
@@ -33,13 +33,13 @@ Ops:
     array set <idx>,<value>       Modifies a value at the indicated index of the array accessed by path
     array del <idx>               Delete a value at the indicated index of the array accessed by path
 
-Value:
-    object                  Inserts an object (dictionary). Accessible via path.
-    array                   Inserts an array (list). Accessible via path.
-    string <str>            Inserts an string with value.
-    number <num>            Inserts an number with value.
-    bool true | false       Inserts a boolean with values.
-    null                    Inserts a null element.
+    Value:
+        object                  an empty object (dictionary)
+        array                   an empty array (list)
+        string <str>            a string <str>
+        number <num>            a number <num>
+        bool (true | false)     a boolean
+        null                    a null value
 
 More Information:
 
