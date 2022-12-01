@@ -1,41 +1,29 @@
-# AM editor: Automerge file command line editor
+# RWAM: Command line reader and editor for JSON Automerge files
 
-AM is a editor that uses Automerge commands to manipulate files in this format via the command line.
+RWAM is a command line JSON Automerge files reader and editor
 
 - [Commands](docs/cmds.md): list of all available commands
 
 
-## Install (5 steps)
+## Install (2 steps)
 
-1. Install `NPM`:
-
-```
-sudo apt install npm
-```
-2. Install `NodeJS`:
+1. Install `NodeJS`:
 
 ```
 sudo apt install nodejs
 ```
 
-3. Install `Automerge`:
+4. Clone the `rwam` repository to use the tool:
 
 ```
-npm i automerge@1.0.1-preview.7
+git clone https://github.com/fabiobosisio/rwam.git
 ```
 
-4. Clone the `am.js` repository to use the tool:
-
-```
-git clone https://github.com/fabiobosisio/am.git
-```
-
-5. Use the editor inside the `/home/user/am` directory
+5. Use the editor inside the `/home/user/rwam` directory
 
 The versions used in the tests were:
 -   NPM v8.13.2
 -   NodeJS v14.15.4
--   Automerge 1.0.1-preview.7
 <!--
 ## Basics
 

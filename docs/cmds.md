@@ -1,26 +1,30 @@
-# AM editor: Automerge file command line editor
+# RWAM: Command line reader and editor for JSON Automerge files
 
-- `node am.js`
+- `node rwam.js`
 
 ```
-Am Editor v0.1.0
+RWAM v0.1.0
 
-AM is a editor that uses Automerge commands to manipulate files in this format via the command line.
+RWAM is a command line JSON Automerge files reader and editor
 
 Usage:
-    node am.js <file> init
-    node am.js <file> <path>... <mode> <op>
+    node rwam.js <file> init
+    node rwam.js <file> <path>... <mode> <op>
+    node rwam.js help
+
+Help:
+    Displays this manual
 
 File:
-    Filename without extension.
+    Filename
 
 Path:    
-    field <fld>    Indicates the field to be accessed.
+    field <fld>    Indicates the field to be accessed
     | 
-    index <idx>    Indicates the index of the accessed field, if it is an array type field.
+    index <idx>    Indicates the index of the accessed field, if it is an array type field
 
 Mode:
-    read           Enables read mode, in which case it is not necessary to include operations.    
+    read           Enables read mode, in which case it is not necessary to include operations    
     |
     write          Enables editor mode, it is necessary to include the desired operation (<op>)
 
@@ -43,9 +47,9 @@ Ops:
 
 More Information:
 
-    https://github.com/fabiobosisio/am
+    https://github.com/fabiobosisio/rwam.git
 
-    Please report bugs at <https://github.com/fabiobosisio/am/blob/master/README.md>.
+    Please report bugs at <https://github.com/fabiobosisio/rwam/blob/master/README.md>
 ```
  <!-- 
 ### init - Inicializa um arquivo Automerge
