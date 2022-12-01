@@ -1,11 +1,11 @@
-# RWAM: Command line reader and editor for JSON Automerge files
+# RWAM: Command line reader and editor for JSON-Automerge files
 
 - `node rwam.js`
 
 ```
 RWAM v0.1.0
 
-RWAM is a command line JSON Automerge files reader and editor
+RWAM is a command line reader and editor for JSON-Automerge files
 
 Usage:
     node rwam.js <file> init
@@ -29,12 +29,12 @@ Mode:
     write          Enables editor mode, it is necessary to include the desired operation (<op>)
 
 Ops:
-    object ins <fld>:<value>      Inserts a field with value in the object accessed by path     
-    object set <fld>:<value>      Modifies a field with value in the object accessed by path
+    object ins <fld> <value>      Inserts a field with value in the object accessed by path     
+    object set <fld> <value>      Modifies a field with value in the object accessed by path
     object del <fld>              Delete a field with value in the object accessed by path
     |
-    array ins <idx>,<value>       Inserts a value at the indicated index of the array accessed by path    
-    array set <idx>,<value>       Modifies a value at the indicated index of the array accessed by path
+    array ins <idx> <value>       Inserts a value at the indicated index of the array accessed by path    
+    array set <idx> <value>       Modifies a value at the indicated index of the array accessed by path
     array del <idx>               Delete a value at the indicated index of the array accessed by path
 
     Value:

@@ -1,6 +1,6 @@
-# RWAM: Command line reader and editor for JSON Automerge files
+# RWAM: Command line reader and editor for JSON-Automerge files
 
-RWAM is a command line JSON Automerge files reader and editor
+RWAM is a command line reader and editor for JSON-Automerge files
 
 - [Commands](docs/cmds.md): list of all available commands
 
