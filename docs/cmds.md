@@ -1,17 +1,15 @@
-# RWAM: Command line reader and editor for JSON-Automerge files
-
-- `node rwam.js`
+# AMRW: Command line reader and editor for JSON-Automerge files
 
 ```
-RWAM v0.1.0
+AMRW v0.1.0
 
-RWAM is a command line reader and editor for JSON-Automerge files
+AMRW is a command line reader and editor for JSON-Automerge files
 
 Usage:
-    node rwam.js <file> init
-    node rwam.js <file> <path>... <mode> <op>
-    node rwam.js <file> json
-    node rwam.js help
+    node amrw.js <file> init
+    node amrw.js <file> <path>... <mode> <op>
+    node amrw.js <file> json
+    node amrw.js help
 
 Help:
     Displays this manual
@@ -54,9 +52,9 @@ Ops:
 
 More Information:
 
-    https://github.com/fabiobosisio/rwam.git
+    https://github.com/fabiobosisio/amrw.git
 
-    Please report bugs at <https://github.com/fabiobosisio/rwam/blob/master/README.md>
+    Please report bugs at <https://github.com/fabiobosisio/amrw/blob/master/README.md>
 ```
  <!-- 
 ### init - Inicializa um arquivo Automerge

@@ -1,6 +1,6 @@
-# RWAM: Command line reader and editor for JSON-Automerge files
+# AMRW: Command line reader and editor for JSON-Automerge files
 
-RWAM is a command line reader and editor for JSON-Automerge files
+AMRW is a command line reader and editor for JSON-Automerge files
 
 - [Commands](docs/cmds.md): list of all available commands
 
@@ -13,13 +13,13 @@ RWAM is a command line reader and editor for JSON-Automerge files
 sudo apt install nodejs
 ```
 
-4. Clone the `rwam` repository to use the tool:
+4. Clone the `amrw` repository to use the tool:
 
 ```
-git clone https://github.com/fabiobosisio/rwam.git
+git clone https://github.com/fabiobosisio/amrw.git
 ```
 
-5. Use the editor inside the `/home/user/rwam` directory
+5. Use the editor inside the `/home/user/amrw` directory
 
 The versions used in the tests were:
 -   NPM v8.13.2
