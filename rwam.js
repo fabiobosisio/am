@@ -24,7 +24,7 @@ function getDataFromPath(jsonObj, pathString) {
     }
 }
 
-//Função setar o elemento no json
+//Função setar o elemento no objeto json
 function setDataOnPath(data = {}, pathList, value) {
 
     const prop = pathList.shift()
@@ -32,7 +32,22 @@ function setDataOnPath(data = {}, pathList, value) {
     if(pathList.length === 0){
         data[prop] = value
     } else {
-        if(typeof(data[prop]) !== 'object') data[prop] = {}
+       // if(typeof(data[prop]) !== 'object') data[prop] = {}
+        setDataOnPath(data[prop], pathList, value)
+    }
+    return data 
+}
+
+//Função setar o elemento no array json
+function setDataArrayOnPath(data = {}, pathList, fieldname, value) {
+
+    const prop = pathList.shift()
+
+    if(pathList.length === 0){
+        data[prop].splice(fieldname, 0, value)
+        
+    } else {
+        //if(typeof(data[prop]) !== 'object') data[prop] = {}
         setDataOnPath(data[prop], pathList, value)
     }
     return data 
@@ -46,7 +61,7 @@ function delDataOnPath(data = {}, pathList) {
     if(pathList.length === 0){
 		delete data[prop]
     } else {
-        if(typeof(data[prop]) !== 'object') delete data[prop]
+        //if(typeof(data[prop]) !== 'object') delete data[prop]
         delDataOnPath(data[prop], pathList)
     }
     return data    
@@ -111,9 +126,26 @@ function save(file,value){
   file = file.substr(0, file.lastIndexOf('.')) || file;
   // Salva o arquivo local .automerge com os metadados automerge do json
   fs.writeFileSync(file+".am", Automerge.save(value), {encoding: null}); 		
-  // Salva o arquivo local .json
-  fs.writeFileSync(file+".json", JSON.stringify(value), {encoding: null});
-  console.log("Arquivo salvo com sucesso");
+  if(verbose) console.log("Arquivo salvo com sucesso");
+  return;
+}
+
+// Função que transforma arquivo automerge em json
+function amtojson(file){ 
+  // Remove extensoes passadas no nome do arquivo nos argumentos
+  file = file.substr(0, file.lastIndexOf('.')) || file;
+  let fileam = file+".am"
+  // Verifica se o arquivo existe localmente
+  if(!fs.existsSync(fileam)) {
+    console.log("Arquivo inexistente");
+  }
+  else {
+    // Carrega o arquivo e converte para JSON
+    let value = Automerge.load(fs.readFileSync(fileam, {encoding: null}));
+    // Salva o arquivo local .json
+    fs.writeFileSync(file+".json", JSON.stringify(value), {encoding: null});
+    if(verbose) console.log("Arquivo salvo com sucesso");
+  }
   return;
 }
 
@@ -125,7 +157,7 @@ function recompose(path){
   file = file+".am"
   // Verifica se o arquivo existe localmente
   if(!fs.existsSync(file)) {
-    console.log("Arquivo inexistente");
+    if(verbose) console.log("Arquivo inexistente");
     out = ''
   }
   else {
@@ -144,22 +176,143 @@ function recompose(path){
 function del(type, fieldname) {
   path.shift(); // Elimina o primeiro elemento vazio do array do path
   path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
-  console.log("Arquivo anterior:")
-  show(Automerge.load(Automerge.save(root)))	
+  if(verbose) console.log("Arquivo anterior:")
+  if(verbose) show(Automerge.load(Automerge.save(root)))	
 	var newOut = Automerge.change(root, root => {
 		existsValueOnPath = Boolean(getDataFromPath(root, path))
 		if (!existsValueOnPath) delDataOnPath(root, path)
 	})
 
-  console.log("Arquivo atualizado:")
-  show(Automerge.load(Automerge.save(newOut)))	
-  // Salva o arquivo local .json
+  if(verbose) console.log("Arquivo atualizado:")
+  if(verbose) show(Automerge.load(Automerge.save(newOut)))	
+  // Salva o arquivo local 
   save(file,newOut)
   return;
 }
 
 // Função de inserção de valores
 function insert(type, fieldname, valuetype, value) {
+  path.shift(); // Elimina o primeiro elemento vazio do array do path
+  if (type == 'object'){
+	path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
+    if(verbose) console.log("em Objeto")
+    if(verbose) console.log("Arquivo:")
+    if(verbose) show(root);
+    switch(valuetype) {
+	case 'object':
+	  if(verbose) console.log("object")
+	  //out[fieldname] = {}    
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, {})
+		})  	  
+	break;
+	case 'array':
+	  if(verbose) console.log("array")
+	  //out[fieldname] = []
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, [])
+		})
+	break;
+	case 'string':
+	  if(verbose) console.log("string:"+value)
+	  //out[fieldname] = value
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, value)
+		})
+	break;
+	case 'number':
+	  if(verbose) console.log("number:"+value)
+	  //out[fieldname] = Number(value)
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, Number(value))
+		})
+	break;
+	case 'bool':
+	  if(verbose) console.log("bool:"+value)
+	  //out[fieldname] = JSON.parse(value)
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, JSON.parse(value))
+		})
+	break;
+	case 'null':
+	  if(verbose) console.log("null")
+	  //out[fieldname] = null;
+	    var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, null)
+		})
+	default:
+      }
+    
+  }else if (type == 'array'){ //Nesse caso a variável fieldname recebe o indice do vetor e não o nome do campo
+    if(verbose) console.log("em Vetor")
+    if(verbose) console.log("Arquivo:")
+    if(verbose) show(root);
+    switch(valuetype) {
+	case 'object':
+	  if(verbose) console.log("object")
+	  //out.splice(fieldname, 0, {});
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, {})
+		})
+	break;
+	case 'array':
+	  if(verbose) console.log("array")
+	  //out.splice(fieldname, 0, []);
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, [])
+		})
+	break;
+	case 'string':
+	  if(verbose) console.log("string:"+value)
+	  //out.splice(fieldname, 0, value);
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, value)
+		})
+	break;
+	case 'number':
+	  if(verbose) console.log("number:"+value)
+	 // out.splice(fieldname, 0, Number(value));
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, Number(value))
+		})
+	break;
+	case 'bool':
+	  if(verbose) console.log("bool:"+value)
+	  //out.splice(fieldname, 0, JSON.parse(value));
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, JSON.parse(value))
+		})
+	break;
+	case 'null':
+	  if(verbose) console.log("null")
+	  //out.splice(fieldname, 0, null);
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, null)
+		})
+	default:
+      }
+  }
+   if(verbose) console.log('\x1b[1m\x1b[31m%s', "Arquivo atualizado:",'\x1b[0m')
+   if(verbose) show(Automerge.load(Automerge.save(newOut)))	
+   // Salva o arquivo local .json
+   save(file,newOut)
+  return;
+}
+
+// Função de edição de valores
+function sett(type, fieldname, valuetype, value) {
   path.shift(); // Elimina o primeiro elemento vazio do array do path
   path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
   if (type == 'object'){
@@ -217,7 +370,7 @@ function insert(type, fieldname, valuetype, value) {
 	default:
       }
     
-  }else if (type == 'array'){ 
+  }else if (type == 'array'){ //Nesse caso a variável fieldname recebe o indice do vetor e não o nome do campo
     if(verbose) console.log("em Vetor")
     if(verbose) console.log("Arquivo:")
     if(verbose) show(root);
@@ -227,7 +380,7 @@ function insert(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, {});
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, {})
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, {})
 		})
 	break;
 	case 'array':
@@ -235,7 +388,7 @@ function insert(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, []);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, [])
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, [])
 		})
 	break;
 	case 'string':
@@ -243,7 +396,7 @@ function insert(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, value);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, value)
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, value)
 		})
 	break;
 	case 'number':
@@ -251,7 +404,7 @@ function insert(type, fieldname, valuetype, value) {
 	 // out.splice(fieldname, 0, Number(value));
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, Number(value))
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, Number(value))
 		})
 	break;
 	case 'bool':
@@ -259,7 +412,7 @@ function insert(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, JSON.parse(value));
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, JSON.parse(value))
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, JSON.parse(value))
 		})
 	break;
 	case 'null':
@@ -267,86 +420,15 @@ function insert(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, null);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, null)
+		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, null)
 		})
 	default:
       }
   }
-   console.log('\x1b[1m\x1b[31m%s', "Arquivo atualizado:",'\x1b[0m')
-   show(Automerge.load(Automerge.save(newOut)))	
+   if(verbose) console.log('\x1b[1m\x1b[31m%s', "Arquivo atualizado:",'\x1b[0m')
+   if(verbose) show(Automerge.load(Automerge.save(newOut)))	
    // Salva o arquivo local .json
    save(file,newOut)
-  return;
-}
-
-// Função de edição de valores
-function sett(type, fieldname, valuetype, value) {
-  if (type == 'object'){
-    if(verbose) console.log("em Objeto")
-    if(verbose) console.log("Arquivo:")
-    if(verbose) show(root);
-    switch(valuetype) {
-	case 'object':
-	  if(verbose) console.log("object")
-	  out[fieldname] = {}
-	break;
-	case 'array':
-	  if(verbose) console.log("array")
-	  out[fieldname] = []
-	break;
-	case 'string':
-	  if(verbose) console.log("string:"+value)
-	  out[fieldname] = value
-	break;
-	case 'number':
-	  if(verbose) console.log("number:"+value)
-	  out[fieldname] = Number(value)
-	break;
-	case 'bool':
-	  if(verbose) console.log("bool:"+value)
-	  out[fieldname] = JSON.parse(value)
-	break;
-	case 'null':
-	  if(verbose) console.log("null")
-	  out[fieldname] = null;
-	default:
-      }
-    
-  }else if (type == 'array'){ 
-    if(verbose) console.log("em Vetor")
-    if(verbose) console.log("Arquivo:")
-    if(verbose) show(root);
-    switch(valuetype) {
-	case 'object':
-	  if(verbose) console.log("object")
-	  out[fieldname] = {}
-	break;
-	case 'array':
-	  if(verbose) console.log("array")
-	  out[fieldname] = []
-	break;
-	case 'string':
-	  if(verbose) console.log("string:"+value)
-	  out[fieldname] = value
-	break;
-	case 'number':
-	  if(verbose) console.log("number:"+value)
-	  out[fieldname] = Number(value)
-	break;
-	case 'bool':
-	  if(verbose) console.log("bool:"+value)
-	  out[fieldname] = JSON.parse(value)
-	break;
-	case 'null':
-	  if(verbose) console.log("null")
-	  out[fieldname] = null;
-	default:
-      }
-  }
-   console.log('\x1b[1m\x1b[31m%s', "Arquivo atualizado:",'\x1b[0m')
-   show(Automerge.load(Automerge.save(newOut)))	
-   // Salva o arquivo local .json
-   //save(file,newOut)
   return;
 }
 
@@ -357,6 +439,9 @@ function show(out){
 }
 
 //***************************** Módulo Principal *****************************//
+//if (process.argv[process.argv.length]== 'verbose'){ // habilita o modo verboso
+//     verbose = true; 
+
 // Exibe o manual
 if (process.argv[2] == 'help' || process.argv[2] == 'Help' || process.argv[2] == 'h' || process.argv[2] == null){
   help();
@@ -365,14 +450,15 @@ if (process.argv[2] == 'help' || process.argv[2] == 'Help' || process.argv[2] ==
 while (process.argv[a]){
   if (process.argv[a] == 'init'){ // inicializa o arquivo Automerge
       const tempinit = Automerge.init()
-	  save(process.argv[2], tempinit)
-	  if(verbose) console.log(tempinit);   
+	  save(process.argv[2], tempinit)  
+  }else if (process.argv[a] == 'json'){ // transforma o arquivo automerge em um json
+      amtojson(process.argv[2]); 
   }else if (process.argv[a] == 'field' || process.argv[a] == 'index'){ // constroi o vetor com o path
       i++;
       path[i] = process.argv[a+1];
   }else if (process.argv[a] == 'read'){ // habilita o modo leitura e exibe o json
       recompose(path);
-      show(out);// exibe o json na tela
+      if(verbose) show(out);// exibe o json na tela
   }else if (process.argv[a] == 'write'){ // habilita o modo edicao
       recompose(path); // Le o arquivo e recompoe o path
       switch(process.argv[a+2]) {
@@ -382,8 +468,7 @@ while (process.argv[a]){
 	  break;
 	  case 'set':
 	      if(verbose) console.log("set");
-	      insert(process.argv[a+1], process.argv[a+3],process.argv[a+4],process.argv[a+5]);
-	      //sett(process.argv[a+1], process.argv[a+3],process.argv[a+4],process.argv[a+5]);
+	      sett(process.argv[a+1], process.argv[a+3],process.argv[a+4],process.argv[a+5]);
 	  break;
 	  case 'del':
 	      if(verbose) console.log("del")

@@ -10,6 +10,7 @@ RWAM is a command line reader and editor for JSON-Automerge files
 Usage:
     node rwam.js <file> init
     node rwam.js <file> <path>... <mode> <op>
+    node rwam.js <file> json
     node rwam.js help
 
 Help:
@@ -17,6 +18,12 @@ Help:
 
 File:
     Filename
+
+Init:
+    Initializes a minimal JSON-Autmerge file
+    
+Json:
+    Convert an Automerge file to a JSON file and save to disk
 
 Path:    
     field <fld>    Indicates the field to be accessed
