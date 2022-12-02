@@ -5,12 +5,23 @@ AMRW is a command line reader and editor for JSON-Automerge files
 - [Commands](docs/cmds.md): list of all available commands
 
 
-## Install (2 steps)
+## Install (5 steps)
 
-1. Install `NodeJS`:
+1. Install `NPM`:
+
+```
+sudo apt install npm
+```
+2. Install `NodeJS`:
 
 ```
 sudo apt install nodejs
+```
+
+3. Install `Automerge`:
+
+```
+npm i automerge@1.0.1-preview.7
 ```
 
 4. Clone the `amrw` repository to use the tool:
@@ -24,6 +35,8 @@ git clone https://github.com/fabiobosisio/amrw.git
 The versions used in the tests were:
 -   NPM v8.13.2
 -   NodeJS v14.15.4
+-   Automerge 1.0.1-preview.7
+
 <!--
 ## Basics
 
