@@ -43,7 +43,7 @@ Ops:
     array del <idx>               Delete a value at the indicated index of the array accessed by path
 
     Value:
-        nestedobject  <name>                an empty netsted object (dictionary) - Array exclusive value
+        nestedobject  <name>    an empty netsted object (dictionary) - Unique value for arrays
         object                  an empty object (dictionary)
         array                   an empty array (list)
         string <str>            a string <str>
