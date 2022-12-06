@@ -39,12 +39,12 @@ function setDataOnPath(data = {}, pathList, value) {
 }
 
 //Função setar o elemento no array json
-function setDataArrayOnPath(data = {}, pathList, fieldname, value) {
+function setDataArrayOnPath(data = {}, pathList, index, value) {
 
     const prop = pathList.shift()
 
     if(pathList.length === 0){
-        data[prop].splice(fieldname, 0, value)
+        data[prop].splice(index, 0, value)
         
     } else {
         //if(typeof(data[prop]) !== 'object') data[prop] = {}
@@ -261,6 +261,13 @@ function insert(type, fieldname, valuetype, value) {
     if(verbose) console.log("Arquivo:")
     if(verbose) show(root);
     switch(valuetype) {
+	case 'nestobject':
+	  if(verbose) console.log("nested object")
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataArrayOnPath(root, path, fieldname, {[value]:{}})
+		})
+	break;
 	case 'object':
 	  if(verbose) console.log("object")
 	  //out.splice(fieldname, 0, {});
@@ -382,12 +389,19 @@ function sett(type, fieldname, valuetype, value) {
     if(verbose) console.log("Arquivo:")
     if(verbose) show(root);
     switch(valuetype) {
+	case 'nestedobject':
+	  if(verbose) console.log("nested object")
+		var newOut = Automerge.change(root, root => {
+			existsValueOnPath = Boolean(getDataFromPath(root, path))
+		if (!existsValueOnPath) setDataOnPath(root, path, {[value]:{}})
+		})
+	break;
 	case 'object':
 	  if(verbose) console.log("object")
 	  //out.splice(fieldname, 0, {});
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, {})
+		if (!existsValueOnPath) setDataOnPath(root, path, {})
 		})
 	break;
 	case 'array':
@@ -395,7 +409,7 @@ function sett(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, []);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, [])
+		if (!existsValueOnPath) setDataOnPath(root, path, [])
 		})
 	break;
 	case 'string':
@@ -403,7 +417,7 @@ function sett(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, value);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, value)
+		if (!existsValueOnPath) setDataOnPath(root, path, value)
 		})
 	break;
 	case 'number':
@@ -411,7 +425,7 @@ function sett(type, fieldname, valuetype, value) {
 	 // out.splice(fieldname, 0, Number(value));
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, Number(value))
+		if (!existsValueOnPath) setDataOnPath(root, path, Number(value))
 		})
 	break;
 	case 'bool':
@@ -419,7 +433,7 @@ function sett(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, JSON.parse(value));
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, JSON.parse(value))
+		if (!existsValueOnPath) setDataOnPath(root, path, JSON.parse(value))
 		})
 	break;
 	case 'null':
@@ -427,7 +441,7 @@ function sett(type, fieldname, valuetype, value) {
 	  //out.splice(fieldname, 0, null);
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
-		if (!existsValueOnPath) setDataOnPath(root, path, fieldname, null)
+		if (!existsValueOnPath) setDataOnPath(root, path, null)
 		})
 	default:
       }
@@ -480,8 +494,6 @@ while (process.argv[a]){
 	  case 'del':
 	      if(verbose) console.log("del")
 	      del(process.argv[a+1], process.argv[a+3]);
-	      
-	      
 	  break;
 	  default:
       }
