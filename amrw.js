@@ -8,7 +8,8 @@ let path = []; // Vetor para armazenar o path
 var root; // Armazena a raiz do arquivo
 var out; // Armazena o campo indicado no path a ser acessado
 var file; //  Armazena o Nome do arquivo a ser lido/salvo
-let verbose = true // Ativa (true) e desativa (false) o modo verboso
+let verbose = true; // Ativa (true) e desativa (false) o modo verboso
+var errorcheck = false; // Verificador de erro de sintaxe
 
 //***************************** Funções *****************************//
 
@@ -261,7 +262,7 @@ function insert(type, fieldname, valuetype, value) {
     if(verbose) console.log("Arquivo:")
     if(verbose) show(root);
     switch(valuetype) {
-	case 'nestobject':
+	case 'nestedobject':
 	  if(verbose) console.log("nested object")
 		var newOut = Automerge.change(root, root => {
 			existsValueOnPath = Boolean(getDataFromPath(root, path))
@@ -470,17 +471,21 @@ if (process.argv[2] == 'help' || process.argv[2] == 'Help' || process.argv[2] ==
 // Main
 while (process.argv[a]){
   if (process.argv[a] == 'init'){ // inicializa o arquivo Automerge
+      errorcheck = true; // Sinaliza que não há erro de sintaxe
       const tempinit = Automerge.init()
 	  save(process.argv[2], tempinit)  
   }else if (process.argv[a] == 'json'){ // transforma o arquivo automerge em um json
-      amtojson(process.argv[2]); 
+      amtojson(process.argv[2]);
+      errorcheck = true; // Sinaliza que não há erro de sintaxe 
   }else if (process.argv[a] == 'field' || process.argv[a] == 'index'){ // constroi o vetor com o path
       i++;
       path[i] = process.argv[a+1];
   }else if (process.argv[a] == 'read'){ // habilita o modo leitura e exibe o json
       recompose(path);
       if(verbose) show(out);// exibe o json na tela
+      errorcheck = true; // Sinaliza que não há erro de sintaxe
   }else if (process.argv[a] == 'write'){ // habilita o modo edicao
+      errorcheck = true; // Sinaliza que não há erro de sintaxe
       recompose(path); // Le o arquivo e recompoe o path
       switch(process.argv[a+2]) {
 	  case 'ins':
@@ -497,6 +502,9 @@ while (process.argv[a]){
 	  break;
 	  default:
       }
-  }  
+  }
   a++; // Avança no path
 }
+if (errorcheck==false){
+      console.log("Erro de sintaxe (Falta init, JSON, read ou write)");
+    }
