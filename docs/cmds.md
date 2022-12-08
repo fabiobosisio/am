@@ -6,13 +6,16 @@ AMRW v0.1.0
 AMRW is a command line reader and editor for JSON-Automerge files
 
 Usage:
-    node amrw.js <file> init
-    node amrw.js <file> <path>... <mode> <op>
-    node amrw.js <file> json
+    node amrw.js <file> init [verbose]
+    node amrw.js <file> <path>... <mode> <op> [verbose]
+    node amrw.js <file> json [verbose]
     node amrw.js help
 
 Help:
     Displays this manual
+
+Verbose:
+    Enable verbose mode
 
 File:
     Filename

@@ -8,7 +8,7 @@ let path = []; // Vetor para armazenar o path
 var root; // Armazena a raiz do arquivo
 var out; // Armazena o campo indicado no path a ser acessado
 var file; //  Armazena o Nome do arquivo a ser lido/salvo
-let verbose = true; // Ativa (true) e desativa (false) o modo verboso
+var verbose = false; // Ativa (true) e desativa (false) o modo verboso
 var errorcheck = false; // Verificador de erro de sintaxe
 
 //***************************** Funções *****************************//
@@ -76,13 +76,16 @@ console.log("")
 console.log("AMRW is a command line reader and editor for JSON-Automerge files")
 console.log("")
 console.log("Usage:")
-console.log("    node amrw.js <file> init")
-console.log("    node amrw.js <file> <path>... <mode> <op>")
-console.log("    node amrw.js <file> json")
+console.log("    node amrw.js <file> init [verbose]")
+console.log("    node amrw.js <file> <path>... <mode> <op> [verbose]")
+console.log("    node amrw.js <file> json [verbose]")
 console.log("    node amrw.js help")
 console.log("")
 console.log("Help:")
 console.log("    Displays this manual")
+console.log("")
+console.log("Verbose:")
+console.log("    Enable verbose mode")
 console.log("")
 console.log("File:")
 console.log("    Filename")
@@ -134,7 +137,7 @@ function save(file,value){
   file = file.substr(0, file.lastIndexOf('.')) || file;
   // Salva o arquivo local .automerge com os metadados automerge do json
   fs.writeFileSync(file+".am", Automerge.save(value), {encoding: null}); 		
-  if(verbose) console.log("Arquivo salvo com sucesso");
+  if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo salvo com sucesso");
   return;
 }
 
@@ -145,14 +148,16 @@ function amtojson(file){
   let fileam = file+".am"
   // Verifica se o arquivo existe localmente
   if(!fs.existsSync(fileam)) {
-    console.log("Arquivo inexistente");
+    console.log('\x1b[1m\x1b[31m%s',"\nArquivo "+fileam+" inexistente!",'\x1b[0m\n');
   }
   else {
     // Carrega o arquivo e converte para JSON
     let value = Automerge.load(fs.readFileSync(fileam, {encoding: null}));
+    if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo:")
+    if(verbose) show(value);
     // Salva o arquivo local .json
     fs.writeFileSync(file+".json", JSON.stringify(value), {encoding: null});
-    if(verbose) console.log("Arquivo salvo com sucesso");
+    if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo salvo com sucesso");
   }
   return;
 }
@@ -165,13 +170,12 @@ function recompose(path){
   file = file+".am"
   // Verifica se o arquivo existe localmente
   if(!fs.existsSync(file)) {
-    if(verbose) console.log("Arquivo inexistente");
+    console.log('\x1b[1m\x1b[31m%s',"\nArquivo "+file+" inexistente!",'\x1b[0m\n');
     out = ''
   }
   else {
     // Carrega o arquivo e converte para JSON
     root = out = Automerge.load(fs.readFileSync(file, {encoding: null}));
-
   }
   // recompoe o path
   for(let c=1; c<=i; c++){
@@ -184,14 +188,14 @@ function recompose(path){
 function del(type, fieldname) {
   path.shift(); // Elimina o primeiro elemento vazio do array do path
   path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
-  if(verbose) console.log("Arquivo anterior:")
+  if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo anterior:")
   if(verbose) show(Automerge.load(Automerge.save(root)))	
 	var newOut = Automerge.change(root, root => {
 		existsValueOnPath = Boolean(getDataFromPath(root, path))
 		if (!existsValueOnPath) delDataOnPath(root, path)
 	})
 
-  if(verbose) console.log("Arquivo atualizado:")
+  if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo atualizado:")
   if(verbose) show(Automerge.load(Automerge.save(newOut)))	
   // Salva o arquivo local 
   save(file,newOut)
@@ -204,7 +208,7 @@ function insert(type, fieldname, valuetype, value) {
   if (type == 'object'){
 	path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
     if(verbose) console.log("em Objeto")
-    if(verbose) console.log("Arquivo:")
+    if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo:")
     if(verbose) show(root);
     switch(valuetype) {
 	case 'object':
@@ -332,7 +336,7 @@ function sett(type, fieldname, valuetype, value) {
   path[path.length] = fieldname // Inclui como ultimo elemento o nome do novo campo no array do path
   if (type == 'object'){
     if(verbose) console.log("em Objeto")
-    if(verbose) console.log("Arquivo:")
+    if(verbose) console.log('\x1b[36m%s\x1b[0m',"Arquivo:")
     if(verbose) show(root);
     switch(valuetype) {
 	case 'object':
@@ -461,8 +465,11 @@ function show(out){
 }
 
 //***************************** Módulo Principal *****************************//
-//if (process.argv[process.argv.length]== 'verbose'){ // habilita o modo verboso
-//     verbose = true; 
+
+// Habilita o modo verboso
+if (process.argv[process.argv.length-1] === 'verbose'){
+     verbose = true; 
+}
 
 // Exibe o manual
 if (process.argv[2] == 'help' || process.argv[2] == 'Help' || process.argv[2] == 'h' || process.argv[2] == null){
@@ -482,7 +489,7 @@ while (process.argv[a]){
       path[i] = process.argv[a+1];
   }else if (process.argv[a] == 'read'){ // habilita o modo leitura e exibe o json
       recompose(path);
-      if(verbose) show(out);// exibe o json na tela
+      show(out);// Exibe o json na tela
       errorcheck = true; // Sinaliza que não há erro de sintaxe
   }else if (process.argv[a] == 'write'){ // habilita o modo edicao
       errorcheck = true; // Sinaliza que não há erro de sintaxe
@@ -506,5 +513,5 @@ while (process.argv[a]){
   a++; // Avança no path
 }
 if (errorcheck==false){
-      console.log("Erro de sintaxe (Falta init, JSON, read ou write)");
-    }
+      console.log('\x1b[1m\x1b[31m%s',"Erro de sintaxe (Falta init, json, read ou write)",'\x1b[0m');
+}
