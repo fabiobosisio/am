@@ -49,7 +49,7 @@ function setDataArrayOnPath(data = {}, pathList, index, value) {
         
     } else {
         //if(typeof(data[prop]) !== 'object') data[prop] = {}
-        setDataOnPath(data[prop], pathList, value)
+        setDataArrayOnPath(data[prop], pathList, index, value)
     }
     return data 
 }
